@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+
+  mysql-database:
+    image: mysql:8.0
+    container_name: mysql-database
+    ports:
+      - "3306:3306"  # Exponemos MySQL en el puerto 3306
+    networks:
+      - app-network
+    environment:
+      MYSQL_ROOT_PASSWORD: 011296erazo
+      MYSQL_PASSWORD: 011296erazo
+      MYSQL_DATABASE: transacciones
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  clientes:
+    build:
+      context: ./clientes
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"  # Exponemos el puerto del clientes
+    networks:
+      - app-network
+    environment:
+      - DB_URL=jdbc:mysql://mysql-database:3306/transacciones?createDatabaseIfNotExist=true&serverTimezone=UTC
+      - DB_USER_NAME=root
+      - DB_PASSWORD=011296erazo
+    depends_on:
+      - mysql-database
+
+  movimientos:
+    build:
+      context: ./movimientos
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8080"  # Exponemos el puerto del movimientos
+    networks:
+      - app-network
+    environment:
+      - DB_URL=jdbc:mysql://mysql-database:3306/transacciones?createDatabaseIfNotExist=true&serverTimezone=UTC
+      - DB_USER_NAME=root
+      - DB_PASSWORD=011296erazo
+      - CLIENTE_URL=http://clientes:8080/clientes # Llamada al clientes por REST
+    depends_on:
+      - clientes
+      - mysql-database
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
