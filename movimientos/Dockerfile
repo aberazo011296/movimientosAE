@@ -23,5 +23,8 @@ ARG JAR_FILE=target/movimientos-0.0.1-SNAPSHOT.jar
 # Copy the jar file from the build stage to the final image
 COPY --from=build /app/${JAR_FILE} app.jar
 
+# Build with profiles
+ENV SPRING_PROFILES_ACTIVE=docker
+
 # Run the jar file
 ENTRYPOINT ["java","-jar","/app.jar"]

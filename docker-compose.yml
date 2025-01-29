@@ -25,6 +25,7 @@ services:
     networks:
       - app-network
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - DB_URL=jdbc:mysql://mysql-database:3306/transacciones?createDatabaseIfNotExist=true&serverTimezone=UTC
       - DB_USER_NAME=root
       - DB_PASSWORD=011296erazo
@@ -40,6 +41,7 @@ services:
     networks:
       - app-network
     environment:
+      - SPRING_PROFILES_ACTIVE=docker
       - DB_URL=jdbc:mysql://mysql-database:3306/transacciones?createDatabaseIfNotExist=true&serverTimezone=UTC
       - DB_USER_NAME=root
       - DB_PASSWORD=011296erazo
