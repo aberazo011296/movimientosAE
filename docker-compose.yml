@@ -21,7 +21,7 @@ services:
       context: ./clientes
       dockerfile: Dockerfile
     ports:
-      - "8081:8080"
+      - "8081:8081"
     networks:
       - app-network
     environment:
@@ -45,7 +45,7 @@ services:
       - DB_URL=jdbc:mysql://mysql-database:3306/transacciones?createDatabaseIfNotExist=true&serverTimezone=UTC
       - DB_USER_NAME=root
       - DB_PASSWORD=011296erazo
-      - CLIENTE_URL=http://clientes:8080/clientes
+      - CLIENTE_URL=http://clientes:8081/clientes
     depends_on:
       - clientes
       - mysql-database
